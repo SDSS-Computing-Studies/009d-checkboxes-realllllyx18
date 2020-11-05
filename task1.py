@@ -18,8 +18,10 @@ Use assignment_test.py to test your functions
 
 
 import tkinter as tk 
+from tkinter import *
 
-
+state = IntVar()
+state.set(1)
 
 def binary_to_decimal(binary):
     # binary is a tuple of length 8
@@ -50,17 +52,40 @@ def get_decimal():
     binary = []
     decimal = binary_to_decimal(binary)
 
+def updateCheck():
+    e1.delete(0,tk.END)
+    e1.insert(0, state.get())
 
 
-win = tk.Tk()
+window = tk.Tk()
+window.title("tk")
 
+e1 = Entry(window)
+e1.insert(0,state.get())
 
+label1 = tk.Label(window, text="Binary/Decimal Converter!")
+cb1 = Checkbutton(window, variable = state, command=updateCheck)
+cb2 = Checkbutton(window, variable = state, command=updateCheck)
+cb3 = Checkbutton(window, variable = state, command=updateCheck)
+cb4 = Checkbutton(window, variable = state, command=updateCheck)
+cb5 = Checkbutton(window, variable = state, command=updateCheck)
+cb6 = Checkbutton(window, variable = state, command=updateCheck)
+cb7 = Checkbutton(window, variable = state, command=updateCheck)
+cb8 = Checkbutton(window, variable = state, command=updateCheck)
+b1 = Button(window, text="Convert to Binary", command=get_binary)
+b2 = Button(window, text="Convert to Decimal", command=get_decimal)
 
-b1 = Button(win, text="Convert to Binary", command=get_binary)
-b2 = Button(win, text="Convert to Decimal", command=get_decimal)
+label1.pack()
+e1.pack()
+cb1.pack()
+cb2.pack()
+cb3.pack()
+cb4.pack()
+cb5.pack()
+cb6.pack()
+cb7.pack()
+cb8.pack()
+b1.pack()
+b2.pack()
 
-
-
-
-
-win.mainloop()
+window.mainloop()
