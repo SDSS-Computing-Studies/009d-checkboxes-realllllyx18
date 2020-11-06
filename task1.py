@@ -26,14 +26,16 @@ state.set(1)
 def binary_to_decimal(binary):
     # binary is a tuple of length 8
     # return value is an integer decimal
-
-
+    decimal = 0
+    for digit in binary:
+        decimal = decimal*2 + int(digit)
     return decimal 
 
 def decimal_to_binary(decimal):
     # decimal is an integer value
     # binary is a tuple of length 8 that contains 1's and 0's
-
+    if decimal > 1:
+        decimal_to_binary(decimal//2)
     return binary
 
 
