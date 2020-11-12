@@ -15,27 +15,29 @@ here
 
 Use assignment_test.py to test your functions
 """
-
-
 import tkinter as tk 
 from tkinter import *
-
-state = IntVar()
-state.set(1)
 
 def binary_to_decimal(binary):
     # binary is a tuple of length 8
     # return value is an integer decimal
-    decimal = 0
-    for digit in binary:
-        decimal = decimal*2 + int(digit)
+    decimal = binary[0]*128+binary[1]*64+binary[2]*32+binary[3]*16+binary[4]*8+binary[5]*4+binary[6]*2+binary[7]
     return decimal 
 
 def decimal_to_binary(decimal):
     # decimal is an integer value
     # binary is a tuple of length 8 that contains 1's and 0's
-    if decimal > 1:
-        decimal_to_binary(decimal//2)
+    binary = []
+    while decimal >= 1:
+        binary.append(decimal%2)
+        decimal = decimal//2
+    length = len(binary)
+    for i in range(0,(8-length)):
+        binary.append(0)
+    for i in range(0,8):
+        binary.append(binary[7-i])
+    for i in range(0,8):
+        binary.pop(0)
     return binary
 
 
@@ -43,51 +45,69 @@ def get_binary():
     # function should read the entry widget and generate an integer
     # this integer will be used as an input parameter for decimal to binary and the result updated
     # in the 8 checkboxes
-
-    binary = binary_to_decimal(decimal)
-
+    decimal = int(e1.get())
+    binary = decimal_to_binary(decimal)
+    state1.set(binary[0])
+    state2.set(binary[1])
+    state3.set(binary[2])
+    state4.set(binary[3])
+    state5.set(binary[4])
+    state6.set(binary[5])
+    state7.set(binary[6])
+    state8.set(binary[7])
 
 def get_decimal():
     # function should read the checkboxes and generate a tuple called binary of length 8 that has 1's and 0's
     # this tuple will be used as an input parameter for binary_to_decimal and the result updated
     # in the entry box
     binary = []
+    binary.append(state1.get())
+    binary.append(state2.get())
+    binary.append(state3.get())
+    binary.append(state4.get())
+    binary.append(state5.get())
+    binary.append(state6.get())
+    binary.append(state7.get())
+    binary.append(state8.get())
     decimal = binary_to_decimal(binary)
-
-def updateCheck():
-    e1.delete(0,tk.END)
-    e1.insert(0, state.get())
-
+    e1.delete(0,END)
+    e1.insert(0,str(decimal))
 
 window = tk.Tk()
-window.title("tk")
+b1 = tk.Button(window, text="Convert to Binary", command=get_binary)
+b2 = tk.Button(window, text="Convert to Decimal", command=get_decimal)
 
-e1 = Entry(window)
-e1.insert(0,state.get())
+l1 = tk.Label(window, text="Binary/Decimal Converter!")
+e1 = tk.Entry(window)
 
-label1 = tk.Label(window, text="Binary/Decimal Converter!")
-cb1 = Checkbutton(window, variable = state, command=updateCheck)
-cb2 = Checkbutton(window, variable = state, command=updateCheck)
-cb3 = Checkbutton(window, variable = state, command=updateCheck)
-cb4 = Checkbutton(window, variable = state, command=updateCheck)
-cb5 = Checkbutton(window, variable = state, command=updateCheck)
-cb6 = Checkbutton(window, variable = state, command=updateCheck)
-cb7 = Checkbutton(window, variable = state, command=updateCheck)
-cb8 = Checkbutton(window, variable = state, command=updateCheck)
-b1 = Button(window, text="Convert to Binary", command=get_binary)
-b2 = Button(window, text="Convert to Decimal", command=get_decimal)
+state1 = tk.IntVar()
+cb1 = tk.Checkbutton(window, variable = state1)
+state2 = tk.IntVar()
+cb2 = tk.Checkbutton(window, variable = state2)
+state3 = tk.IntVar()
+cb3 = tk.Checkbutton(window, variable = state3)
+state4 = tk.IntVar()
+cb4 = tk.Checkbutton(window, variable = state4)
+state5 = tk.IntVar()
+cb5 = tk.Checkbutton(window, variable = state5)
+state6 = tk.IntVar()
+cb6 = tk.Checkbutton(window, variable = state6)
+state7 = tk.IntVar()
+cb7 = tk.Checkbutton(window, variable = state7)
+state8 = tk.IntVar()
+cb8 = tk.Checkbutton(window, variable = state8)
 
-label1.pack()
-e1.pack()
-cb1.pack()
-cb2.pack()
-cb3.pack()
-cb4.pack()
-cb5.pack()
-cb6.pack()
-cb7.pack()
-cb8.pack()
-b1.pack()
-b2.pack()
+l1.grid(row = 1, column = 1, columnspan = 8)
+cb1.grid(row = 2, column = 1)
+cb2.grid(row = 2, column = 2)
+cb3.grid(row = 2, column = 3)
+cb4.grid(row = 2, column = 4)
+cb5.grid(row = 2, column = 5)
+cb6.grid(row = 2, column = 6)
+cb7.grid(row = 2, column = 7)
+cb8.grid(row = 2, column = 8)
+b1.grid(row = 3, column = 1, columnspan = 4)
+b2.grid(row = 3, column = 5, columnspan = 4)
+e1.grid(row = 4, column = 1, columnspan = 8)
 
 window.mainloop()
